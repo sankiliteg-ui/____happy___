@@ -33,47 +33,46 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 35px;
-            max-width: 90%;
-        }
-
+        /* Fixed Overlay Styling */
         #message-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.97);
-            z-index: 100;
-            display: none;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 9999; /* Higher z-index to ensure it sits on top */
+            display: none; /* Controlled by JS */
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            padding: 80px 20px 40px 20px;
+            padding: 100px 20px 40px 20px;
             overflow-y: auto;
+            box-sizing: border-box;
         }
 
         .hindi-line {
             font-family: 'Noto Sans Devanagari', sans-serif;
             font-size: 1.1rem;
-            margin: 12px 0;
+            margin: 15px 0;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
             color: #ffd700;
             line-height: 1.6;
             max-width: 600px;
+            width: 100%;
         }
 
         .osho-quote {
             color: #00e5ff !important;
             font-style: italic;
-            border-left: 3px solid #ff007f;
+            border-left: 4px solid #ff007f;
             padding-left: 15px;
             text-align: left;
             margin: 25px 0;
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
         }
 
         .msg-btn {
@@ -86,19 +85,21 @@
             margin-top: 25px;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-            font-size: 1rem;
-            transition: transform 0.2s;
+            font-size: 1.1rem;
+            transition: transform 0.2s, background 0.2s;
+            z-index: 10;
         }
-        .msg-btn:active { transform: scale(0.9); }
+        .msg-btn:active { transform: scale(0.95); }
 
         .close-btn {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            color: white;
-            font-size: 2.5rem;
+            top: 20px;
+            right: 25px;
+            color: #ffd700;
+            font-size: 3rem;
             cursor: pointer;
-            z-index: 101;
+            z-index: 10000;
+            padding: 10px;
         }
 
         .emoji-sad {
@@ -107,27 +108,35 @@
             opacity: 0.4;
             pointer-events: none;
         }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
 
     <canvas id="bg"></canvas>
     
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="krishana.mp3" type="audio/mpeg">
     </audio>
 
-    <section>
+    <section id="main-hero">
         <div class="emoji-sad" style="top:10%; left:20%;">😔</div>
         <div class="emoji-sad" style="bottom:20%; right:15%;">🥀</div>
-        <p style="letter-spacing: 5px;">DEAREST SISTER</p>
+        <p style="letter-spacing: 5px; font-weight: 300;">DEAREST SISTER</p>
         <h1 class="reveal">HAPPY <br> <span class="gold-gradient">ADVANCE HOLI</span> <br> ANKKU DII</h1>
-        <button class="msg-btn" onclick="showMsg()">ज़िंदगी और उत्सव 🌸</button>
+        <button class="msg-btn" id="openBtn" onclick="showMsg()">ज़िंदगी और उत्सव 🌸</button>
     </section>
 
     <div id="message-overlay">
-        <div class="close-btn" onclick="closeMsg()">×</div>
-        <div class="emoji-sad" style="top:5%; right:10%;">🥺</div>
+        <div class="close-btn" onclick="closeMsg()">&times;</div>
         
         <div class="hindi-line osho-quote">
             <strong>ज़िंदगी और उत्सव</strong><br>
@@ -147,25 +156,25 @@
         <div class="hindi-line">जिससे जुड़ता हूँ, सच्चे दिल से जुड़ता हूँ, पर किसी की बुराई सुनना या फैलाना मेरे उसूलों में नहीं है। 🥀</div>
         <div class="hindi-line">दुनियादारी की चालाकियों से खुद को बचाकर चलता हूँ।</div>
         <div class="hindi-line">शायद इसी वजह से हर किसी को अच्छा नहीं लगता, मगर जो समझ जाते हैं मुझे... 🥺</div>
-        <div class="hindi-line" style="font-weight: bold; font-size: 1.4rem; color: #ff007f; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+        <div class="hindi-line" style="font-weight: bold; font-size: 1.4rem; color: #ff007f; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: center;">
             उनके लिए मैं खुद को पूरी तरह लुटा देता हूँ ❤️
         </div>
     </div>
 
     <section id="emotional">
         <div class="glass-card">
-            <p style="line-height: 1.6;">Dii jab gussa hoti ho na… WiFi bhi signal lose kar deta hai 😭</p>
+            <p style="line-height: 1.6; font-size: 1.1rem;">Dii jab gussa hoti ho na… <br> WiFi bhi signal lose kar deta hai 😭</p>
         </div>
     </section>
 
     <script>
+        // 1. THREE.JS BACKGROUND
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ 
             canvas: document.querySelector('#bg'), 
             antialias: true, 
-            alpha: true,
-            powerPreference: "high-performance" 
+            alpha: true 
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -178,36 +187,52 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            torusKnot.rotation.x += 0.005;
-            torusKnot.rotation.y += 0.01;
+            torusKnot.rotation.x += 0.003;
+            torusKnot.rotation.y += 0.003;
             renderer.render(scene, camera);
         }
         animate();
 
+        // 2. MESSAGE LOGIC
         const music = document.getElementById('bgMusic');
+        const overlay = document.getElementById('message-overlay');
 
         function showMsg() {
-            music.play().catch(e => console.log("Music play blocked"));
-            const overlay = document.getElementById('message-overlay');
+            // First, show the overlay
             overlay.style.display = 'flex';
             
-            gsap.to(".hindi-line", {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                stagger: 0.8, 
-                ease: "power2.out"
-            });
+            // Try to play music
+            if (music) {
+                music.play().catch(e => console.log("Music waiting for interaction..."));
+            }
+
+            // GSAP Animation
+            gsap.fromTo(".hindi-line", 
+                { opacity: 0, y: 30 }, 
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1, 
+                    stagger: 0.8, 
+                    ease: "power2.out",
+                    delay: 0.2 
+                }
+            );
+            
+            // Prevent body scroll when message is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeMsg() {
-            document.getElementById('message-overlay').style.display = 'none';
-            gsap.set(".hindi-line", { opacity: 0, y: 20 });
+            overlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
+        // 3. SCROLL REVEAL
         gsap.registerPlugin(ScrollTrigger);
-        gsap.from(".reveal", { opacity: 0, y: 30, duration: 1 });
-        
+        gsap.from(".reveal", { opacity: 0, y: 50, duration: 1.5, ease: "power4.out" });
+
+        // Handle Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth/window.innerHeight;
             camera.updateProjectionMatrix();
