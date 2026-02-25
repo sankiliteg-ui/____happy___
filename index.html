@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holi Wishes | ANKKU DII</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Sans+Devanagari:wght@400;700&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #050505; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; touch-action: manipulation; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 { font-size: clamp(2.2rem, 10vw, 5.5rem); margin: 0; font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+        .gold-gradient { 
+            background: linear-gradient(45deg, #ffd700, #ff007f, #7a00ff); 
+            background-size: 200% auto;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 35px;
+            max-width: 90%;
+        }
+
+        #message-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.97);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 80px 20px 40px 20px;
+            overflow-y: auto;
+        }
+
+        .hindi-line {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.1rem;
+            margin: 12px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            color: #ffd700;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .osho-quote {
+            color: #00e5ff !important;
+            font-style: italic;
+            border-left: 3px solid #ff007f;
+            padding-left: 15px;
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .msg-btn {
+            background: #ffd700;
+            color: black;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-weight: 800;
+            margin-top: 25px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .msg-btn:active { transform: scale(0.9); }
+
+        .close-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .emoji-sad {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg"></canvas>
+    
+    <audio id="bgMusic" loop>
+        <source src="krishana.mp3" type="audio/mpeg">
+    </audio>
+
+    <section>
+        <div class="emoji-sad" style="top:10%; left:20%;">😔</div>
+        <div class="emoji-sad" style="bottom:20%; right:15%;">🥀</div>
+        <p style="letter-spacing: 5px;">DEAREST SISTER</p>
+        <h1 class="reveal">HAPPY <br> <span class="gold-gradient">ADVANCE HOLI</span> <br> ANKKU DII</h1>
+        <button class="msg-btn" onclick="showMsg()">ज़िंदगी और उत्सव 🌸</button>
+    </section>
+
+    <div id="message-overlay">
+        <div class="close-btn" onclick="closeMsg()">×</div>
+        <div class="emoji-sad" style="top:5%; right:10%;">🥺</div>
+        
+        <div class="hindi-line osho-quote">
+            <strong>ज़िंदगी और उत्सव</strong><br>
+            "ज़िंदगी कोई समस्या नहीं है जिसे सुलझाना हो, यह एक रहस्य है जिसे जीकर ही जाना जा सकता है। मत पूछ मंज़िल कहाँ है, बस हर कदम को उत्सव बना ले।"
+        </div>
+
+        <div class="hindi-line">मैं कोई खास बनने की कोशिश नहीं करता, बस जैसा हूँ वैसा ही रहता हूँ। 😔</div>
+        <div class="hindi-line">दिखावे की आदत नहीं, और झूठे चेहरों से दूरी पसंद है।</div>
+        
+        <div class="hindi-line osho-quote">
+            <strong>वर्तमान का महत्व</strong><br>
+            "जो बीत गया वो सपना है, जो आने वाला है वो कल्पना है, बस यही 'पल' अपना है। साँस को देखो, यही तुम्हारा मंदिर है, यही तुम्हारा परमात्मा है।"
+        </div>
+
+        <div class="hindi-line">दुनिया क्या कहती है, इससे ज़्यादा मुझे अपनी ख़ामोशी सुकून देती है। 😶</div>
+        <div class="hindi-line">हाँ... हँस लेता हूँ, मस्ती भी करता हूँ, दिल खोलकर जीना जानता हूँ।</div>
+        <div class="hindi-line">जिससे जुड़ता हूँ, सच्चे दिल से जुड़ता हूँ, पर किसी की बुराई सुनना या फैलाना मेरे उसूलों में नहीं है। 🥀</div>
+        <div class="hindi-line">दुनियादारी की चालाकियों से खुद को बचाकर चलता हूँ।</div>
+        <div class="hindi-line">शायद इसी वजह से हर किसी को अच्छा नहीं लगता, मगर जो समझ जाते हैं मुझे... 🥺</div>
+        <div class="hindi-line" style="font-weight: bold; font-size: 1.4rem; color: #ff007f; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+            उनके लिए मैं खुद को पूरी तरह लुटा देता हूँ ❤️
+        </div>
+    </div>
+
+    <section id="emotional">
+        <div class="glass-card">
+            <p style="line-height: 1.6;">Dii jab gussa hoti ho na… WiFi bhi signal lose kar deta hai 😭</p>
+        </div>
+    </section>
+
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.querySelector('#bg'), 
+            antialias: true, 
+            alpha: true,
+            powerPreference: "high-performance" 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        camera.position.z = 30;
+
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 60, 12);
+        const material = new THREE.PointsMaterial({ size: 0.15, color: 0xffd700 });
+        const torusKnot = new THREE.Points(geometry, material);
+        scene.add(torusKnot);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            torusKnot.rotation.x += 0.005;
+            torusKnot.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        const music = document.getElementById('bgMusic');
+
+        function showMsg() {
+            music.play().catch(e => console.log("Music play blocked"));
+            const overlay = document.getElementById('message-overlay');
+            overlay.style.display = 'flex';
+            
+            gsap.to(".hindi-line", {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                stagger: 0.8, 
+                ease: "power2.out"
+            });
+        }
+
+        function closeMsg() {
+            document.getElementById('message-overlay').style.display = 'none';
+            gsap.set(".hindi-line", { opacity: 0, y: 20 });
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".reveal", { opacity: 0, y: 30, duration: 1 });
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth/window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
