@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Holi Wishes | ANKKU DII</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -18,7 +18,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
             position: relative;
         }
@@ -33,22 +33,19 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
         
-        /* Fixed Overlay Styling */
         #message-overlay {
             position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.98);
-            z-index: 9999; /* Higher z-index to ensure it sits on top */
-            display: none; /* Controlled by JS */
+            z-index: 9999;
+            display: none;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            padding: 100px 20px 40px 20px;
+            padding: 100px 20px 60px 20px;
             overflow-y: auto;
             box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
         }
 
         .hindi-line {
@@ -75,6 +72,36 @@
             border-radius: 0 15px 15px 0;
         }
 
+        /* VIRUS BOX ON FIRST PAGE */
+        .virus-box {
+            border: 2px dashed #ff007f;
+            background: rgba(255, 0, 127, 0.08);
+            padding: 35px 20px;
+            border-radius: 20px;
+            margin: 40px auto;
+            max-width: 500px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+        }
+
+        .virus-box::before {
+            content: "⚠️ CRITICAL SYSTEM WARNING";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff007f;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
         .msg-btn {
             background: #ffd700;
             color: black;
@@ -86,20 +113,15 @@
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
             font-size: 1.1rem;
-            transition: transform 0.2s, background 0.2s;
-            z-index: 10;
+            transition: transform 0.2s;
         }
         .msg-btn:active { transform: scale(0.95); }
 
         .close-btn {
             position: fixed;
-            top: 20px;
-            right: 25px;
-            color: #ffd700;
-            font-size: 3rem;
-            cursor: pointer;
-            z-index: 10000;
-            padding: 10px;
+            top: 20px; right: 25px;
+            color: #ffd700; font-size: 3rem;
+            cursor: pointer; z-index: 10000;
         }
 
         .emoji-sad {
@@ -107,15 +129,6 @@
             font-size: 1.5rem;
             opacity: 0.4;
             pointer-events: none;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-top: 50px;
         }
     </style>
 </head>
@@ -130,9 +143,21 @@
     <section id="main-hero">
         <div class="emoji-sad" style="top:10%; left:20%;">😔</div>
         <div class="emoji-sad" style="bottom:20%; right:15%;">🥀</div>
-        <p style="letter-spacing: 5px; font-weight: 300;">DEAREST SISTER</p>
-        <h1 class="reveal">HAPPY <br> <span class="gold-gradient">ADVANCE HOLI</span> <br> ANKKU DII</h1>
+        <p style="letter-spacing: 5px; font-weight: 300;">DEAREST MITTAR</p>
+        <h1 class="reveal">HAPPY <br> <span class="gold-gradient">ADVANCE HOLI</span> <br> ANNU</h1>
         <button class="msg-btn" id="openBtn" onclick="showMsg()">ज़िंदगी और उत्सव 🌸</button>
+    </section>
+
+    <section id="virus-section">
+        <div class="virus-box reveal">
+            <p style="line-height: 1.8; font-size: 1.15rem;">
+                तू चाहे दीवार बना ले या ब्लॉक की लिस्ट,<br>
+                मैं तो वो <b style="color:#ff007f;">'वायरस'</b> हूँ जो तेरे ख्यालों में भी घुस जाऊँगा।<br><br>
+                अन्नू, तूने मुझे ब्लॉक किया है, मेरे दिल को नहीं। ❤️<br><br>
+                <span style="color: #00e5ff; font-style: italic;">"मेरे पास एक आईडिया तेरी ब्लॉक का बायपास है, मैं मैसेज करूँगा... हाहाहा!"</span> 😎🔥<br><br>
+                और हाँ, <b style="color:#ffd700;">अनब्लॉक कर दे</b> वरना तेरे घर के बाहर आकर 'अन्नू-अन्नू' चिल्लाऊँगा! 😂📢
+            </p>
+        </div>
     </section>
 
     <div id="message-overlay">
@@ -153,29 +178,20 @@
 
         <div class="hindi-line">दुनिया क्या कहती है, इससे ज़्यादा मुझे अपनी ख़ामोशी सुकून देती है। 😶</div>
         <div class="hindi-line">हाँ... हँस लेता हूँ, मस्ती भी करता हूँ, दिल खोलकर जीना जानता हूँ।</div>
-        <div class="hindi-line">जिससे जुड़ता हूँ, सच्चे दिल से जुड़ता हूँ, पर किसी की बुराई सुनना या फैलाना मेरे उसूलों में नहीं है। 🥀</div>
+        <div class="hindi-line">जिससे जुड़ता हूँ, सच्चे दिल से जुड़ता हूँ... 🥀</div>
         <div class="hindi-line">दुनियादारी की चालाकियों से खुद को बचाकर चलता हूँ।</div>
         <div class="hindi-line">शायद इसी वजह से हर किसी को अच्छा नहीं लगता, मगर जो समझ जाते हैं मुझे... 🥺</div>
+
         <div class="hindi-line" style="font-weight: bold; font-size: 1.4rem; color: #ff007f; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: center;">
             उनके लिए मैं खुद को पूरी तरह लुटा देता हूँ ❤️
         </div>
     </div>
 
-    <section id="emotional">
-        <div class="glass-card">
-            <p style="line-height: 1.6; font-size: 1.1rem;">Dii jab gussa hoti ho na… <br> WiFi bhi signal lose kar deta hai 😭</p>
-        </div>
-    </section>
-
     <script>
         // 1. THREE.JS BACKGROUND
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: document.querySelector('#bg'), 
-            antialias: true, 
-            alpha: true 
-        });
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         camera.position.z = 30;
@@ -193,33 +209,18 @@
         }
         animate();
 
-        // 2. MESSAGE LOGIC
+        // 2. OVERLAY LOGIC
         const music = document.getElementById('bgMusic');
         const overlay = document.getElementById('message-overlay');
 
         function showMsg() {
-            // First, show the overlay
             overlay.style.display = 'flex';
-            
-            // Try to play music
-            if (music) {
-                music.play().catch(e => console.log("Music waiting for interaction..."));
-            }
+            if (music) music.play().catch(e => console.log("Music play blocked"));
 
-            // GSAP Animation
             gsap.fromTo(".hindi-line", 
                 { opacity: 0, y: 30 }, 
-                { 
-                    opacity: 1, 
-                    y: 0, 
-                    duration: 1, 
-                    stagger: 0.8, 
-                    ease: "power2.out",
-                    delay: 0.2 
-                }
+                { opacity: 1, y: 0, duration: 0.8, stagger: 0.6, ease: "power2.out" }
             );
-            
-            // Prevent body scroll when message is open
             document.body.style.overflow = 'hidden';
         }
 
@@ -228,11 +229,23 @@
             document.body.style.overflow = 'auto';
         }
 
-        // 3. SCROLL REVEAL
+        // 3. SCROLL REVEAL (For Android Smoothness)
         gsap.registerPlugin(ScrollTrigger);
-        gsap.from(".reveal", { opacity: 0, y: 50, duration: 1.5, ease: "power4.out" });
+        gsap.utils.toArray(".reveal").forEach((elem) => {
+            gsap.from(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+        });
 
-        // Handle Resize
+        // 4. RESIZE HANDLER
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth/window.innerHeight;
             camera.updateProjectionMatrix();
